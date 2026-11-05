@@ -29,9 +29,10 @@ function App() {
 
   function ShowWeather (finalresults) {
    setthecity(finalresults);
+   setweather(null);
   
-   fetch(`https://api.open-meteo.com/v1/forecast?latitude=13.4088&longitude=122.5615&daily=temperature_2m_max,wind_speed_10m_max&hourly=temperature_2m,cloud_cover&current=is_day,temperature_2m,rain&timezone=Asia%2FSingapore`)
-    .then((res) => {res.json})
+   fetch(`https://api.open-meteo.com/v1/forecast?latitude=${finalresults.latitude}&longitude=${finalresults.longitude}&daily=temperature_2m_max,wind_speed_10m_max&hourly=temperature_2m,cloud_cover&current=is_day,temperature_2m,rain&timezone=Asia%2FSingapore`)
+    .then((res) => res.json())
     .then((data) => {setweather(data)})
   }
   return (
@@ -58,7 +59,8 @@ function App() {
         <h2>Weather in {thecity.name}</h2>
         {weather ? (
           <div>
-            <p>{weather.temperature_2m_max[0]}</p>
+            <p>Max temp:{weather.daily.temperature_2m_max[0]}</p>
+            <p>Wind Speed:{weather.daily.wind_speed_10m_max[0]}</p>
           </div>
         ) : (
           <p>Loading...</p>
